@@ -2,7 +2,7 @@
 
 namespace CourseApp
 {
-    public abstract class Person
+    public abstract class Person : IComparable
     {
         private int age;
 
@@ -59,6 +59,11 @@ namespace CourseApp
         public string Surname { get; set; }
 
         public bool IsMale { get; set; }
+
+        public int CompareTo(Person p)
+        {
+            return this.Age.CompareTo(p.Age);
+        }
 
         public void Marry(string surname, bool change = false)
         {

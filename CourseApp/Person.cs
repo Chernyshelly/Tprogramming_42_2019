@@ -2,7 +2,7 @@
 
 namespace CourseApp
 {
-    public abstract class Person : IComparable
+    public abstract class Person
     {
         private int age;
 

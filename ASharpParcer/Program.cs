@@ -4,25 +4,15 @@ using System.Collections.Generic;
 
 namespace ASharpParcer
 {
-    class Program
+    public class Program
     {
-        public List<string> Lines = new List<string>();
+        public List<string> Lines { get; set; } = new List<string>();
 
-        public List<long> Vars = new List<long>();
+        public List<long> Vars { get; set; } = new List<long>();
 
-        public List<JumpPoint> JumpPlaces = new List<JumpPoint>();
+        public List<JumpPoint> JumpPlaces { get; set; } = new List<JumpPoint>();
 
-        public struct JumpPoint
-        {
-            public int lineId;
-            public string pointName;
-        }
-
-        public void ReadExecLine(int i)
-        {
-
-        }
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
             string path = "d:/Git/test.txt";
@@ -30,6 +20,16 @@ namespace ASharpParcer
             Console.WriteLine(sr.ReadLine());
             Console.WriteLine(sr.ReadLine());
             sr.Close();
+        }
+
+        public void ReadExecLine(int i)
+        {
+        }
+
+        public struct JumpPoint
+        {
+            public int LineId;
+            public string PointName;
         }
     }
 }

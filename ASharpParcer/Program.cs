@@ -20,6 +20,8 @@ namespace ASharpParcer
             Console.WriteLine(sr.ReadLine());
             Console.WriteLine(sr.ReadLine());
             sr.Close();
+            char[] arr = new char[] { 'h', 'e', 'l', 'l', 'o' };
+            Console.WriteLine(HelpMethods.CharArrToString(arr));
         }
 
         public void ReadExecLine(int i)

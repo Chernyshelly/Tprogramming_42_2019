@@ -8,7 +8,7 @@ namespace ASharpParcer
     {
         public List<string> Lines { get; set; } = new List<string>();
 
-        public List<long> Vars { get; set; } = new List<long>();
+        public List<VarSaved> Vars { get; set; } = new List<VarSaved>();
 
         public List<JumpPoint> JumpPlaces { get; set; } = new List<JumpPoint>();
 
@@ -20,8 +20,6 @@ namespace ASharpParcer
             Console.WriteLine(sr.ReadLine());
             Console.WriteLine(sr.ReadLine());
             sr.Close();
-            char[] arr = new char[] { 'h', 'e', 'l', 'l', 'o' };
-            Console.WriteLine(HelpMethods.CharArrToString(arr));
         }
 
         public void ReadExecLine(int i)
@@ -32,6 +30,12 @@ namespace ASharpParcer
         {
             public int LineId;
             public string PointName;
+        }
+
+        public struct VarSaved
+        {
+            public string Name;
+            public long Num;
         }
     }
 }

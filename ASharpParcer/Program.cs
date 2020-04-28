@@ -6,24 +6,45 @@ namespace ASharpParcer
 {
     public class Program
     {
-        public List<string> Lines { get; set; } = new List<string>();
+        public static List<string> Lines { get; set; } = new List<string>();
 
-        public List<VarSaved> Vars { get; set; } = new List<VarSaved>();
+        public static List<VarSaved> Vars { get; set; } = new List<VarSaved>();
 
-        public List<JumpPoint> JumpPlaces { get; set; } = new List<JumpPoint>();
+        public static List<JumpPoint> JumpPlaces { get; set; } = new List<JumpPoint>();
 
         public static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
             string path = "d:/Git/test.txt";
             StreamReader sr = new StreamReader(path);
-            Console.WriteLine(sr.ReadLine());
-            Console.WriteLine(sr.ReadLine());
+            Lines.Add(sr.ReadLine());
+            Console.WriteLine(PreExecLine(0) + "\n" + sr.ReadToEnd());
             sr.Close();
         }
 
-        public void ReadExecLine(int i)
+        public static void ExecLine(int i)
         {
+        }
+
+        public static string PreExecLine(int n)
+        {
+            char[] s = Lines[n].ToCharArray();
+            int j = Array.IndexOf(s, ':');
+            s[j + 1] = '\n';
+            int i = 0;
+            while ((s[i] == ' ') && (i < s.Length))
+            {
+                i++;
+            }
+
+            string ss = string.Empty;
+            for (int ii = i; ii < s.Length; ii++)
+            {
+                ss += s[ii];
+            }
+
+            Lines[n] = ss;
+            return Lines[n];
         }
 
         public struct JumpPoint

@@ -6,6 +6,16 @@ namespace ASharpParcer
 {
     public class Program
     {
+        public enum LineType
+        {
+            Label,
+            Condition,
+            Math,
+            Direction,
+            Printing,
+            Reading
+        }
+
         public static List<string> Lines { get; set; } = new List<string>();
 
         public static List<VarSaved> Vars { get; set; } = new List<VarSaved>();
@@ -57,6 +67,12 @@ namespace ASharpParcer
         {
             public string Name;
             public long Num;
+        }
+
+        public struct LineReady
+        {
+            public LineType Type;
+            public string Line;
         }
     }
 }

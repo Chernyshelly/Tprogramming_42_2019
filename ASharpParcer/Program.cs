@@ -18,7 +18,8 @@ namespace ASharpParcer
             string path = "d:/Git/test.txt";
             StreamReader sr = new StreamReader(path);
             Lines.Add(sr.ReadLine());
-            Console.WriteLine(PreExecLine(0) + "\n" + sr.ReadToEnd());
+            Lines.Add(sr.ReadLine());
+            Console.WriteLine(PreExecLine(0) + "\n" + Lines[1] + sr.ReadToEnd());
             sr.Close();
         }
 
@@ -29,21 +30,20 @@ namespace ASharpParcer
         public static string PreExecLine(int n)
         {
             char[] s = Lines[n].ToCharArray();
-            int j = Array.IndexOf(s, ':');
-            s[j + 1] = '\n';
-            int i = 0;
-            while ((s[i] == ' ') && (i < s.Length))
+            int j = Lines[n].Length;
+            bool rmWhiSpaces = Lines[n].Contains(':');
+            if (rmWhiSpaces)
             {
-                i++;
+                j = Array.IndexOf(s, ':');
+                Lines.Insert(n + 1, Lines[n].Substring(j + 1, Lines[n].Length - j - 1).Trim());
             }
 
-            string ss = string.Empty;
-            for (int ii = i; ii < s.Length; ii++)
+            Lines[n] = Lines[n].Substring(0, j + 1).Trim();
+            if (rmWhiSpaces)
             {
-                ss += s[ii];
+                Lines[n] = Lines[n].Replace(" ", string.Empty);
             }
 
-            Lines[n] = ss;
             return Lines[n];
         }
 

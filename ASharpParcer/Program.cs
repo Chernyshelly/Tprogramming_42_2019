@@ -13,10 +13,11 @@ namespace ASharpParcer
             Math,
             Direction,
             Printing,
-            Reading
+            Reading,
+            Undefined
         }
 
-        public static List<string> Lines { get; set; } = new List<string>();
+        public static List<LineReady> Lines { get; set; } = new List<LineReady>();
 
         public static List<VarSaved> Vars { get; set; } = new List<VarSaved>();
 
@@ -27,9 +28,6 @@ namespace ASharpParcer
             Console.WriteLine("Hello World!");
             string path = "d:/Git/test.txt";
             StreamReader sr = new StreamReader(path);
-            Lines.Add(sr.ReadLine());
-            Lines.Add(sr.ReadLine());
-            Console.WriteLine(PreExecLine(0) + "\n" + Lines[1] + sr.ReadToEnd());
             sr.Close();
         }
 
@@ -37,24 +35,49 @@ namespace ASharpParcer
         {
         }
 
-        public static string PreExecLine(int n)
+        public static void PreExecLine(string line)
         {
-            char[] s = Lines[n].ToCharArray();
-            int j = Lines[n].Length;
-            bool rmWhiSpaces = Lines[n].Contains(':');
-            if (rmWhiSpaces)
+            char[] s = line.ToCharArray();
+            int j = line.Length;
+            LineReady rdyLine;
+            rdyLine.Line = line;
+            rdyLine.Type = LineType.Undefined;
+            Lines.Add(rdyLine);
+            int i = Lines.LastIndexOf(rdyLine);
+            if (line.Contains(':'))
             {
                 j = Array.IndexOf(s, ':');
-                Lines.Insert(n + 1, Lines[n].Substring(j + 1, Lines[n].Length - j - 1).Trim());
+                PreExecLine(line.Substring(j + 1, line.Length - j - 1).Trim());
             }
 
-            Lines[n] = Lines[n].Substring(0, j + 1).Trim();
-            if (rmWhiSpaces)
+            string retLine = line.Substring(0, j + 1).Trim();
+            if (retLine.StartsWith("if "))
             {
-                Lines[n] = Lines[n].Replace(" ", string.Empty);
+                rdyLine.Type = LineType.Condition;
+            }
+            else if (retLine.StartsWith("goto "))
+            {
+                rdyLine.Type = LineType.Direction;
+            }
+            else if (retLine.Contains("="))
+            {
+                rdyLine.Type = LineType.Math;
+            }
+            else if (retLine.StartsWith("print "))
+            {
+                rdyLine.Type = LineType.Printing;
+            }
+            else if (retLine.StartsWith("read "))
+            {
+                rdyLine.Type = LineType.Reading;
+            }
+            else if (retLine.Contains(':'))
+            {
+                rdyLine.Type = LineType.Label;
             }
 
-            return Lines[n];
+            rdyLine.Line = retLine;
+            Lines[i] = rdyLine;
         }
 
         public struct JumpPoint

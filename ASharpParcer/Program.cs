@@ -28,7 +28,17 @@ namespace ASharpParcer
             Console.WriteLine("Hello World!");
             string path = "d:/Git/test.txt";
             StreamReader sr = new StreamReader(path);
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                PreExecLine(line);
+            }
+
             sr.Close();
+            foreach (var item in Lines)
+            {
+                Console.WriteLine($"{item.Line} : {item.Type}");
+            }
         }
 
         public static void ExecLine(int i)
@@ -44,13 +54,20 @@ namespace ASharpParcer
             rdyLine.Type = LineType.Undefined;
             Lines.Add(rdyLine);
             int i = Lines.LastIndexOf(rdyLine);
-            if (line.Contains(':'))
+            bool label = line.Contains(':');
+            if (label)
             {
+                rdyLine.Type = LineType.Label;
                 j = Array.IndexOf(s, ':');
                 PreExecLine(line.Substring(j + 1, line.Length - j - 1).Trim());
             }
 
-            string retLine = line.Substring(0, j + 1).Trim();
+            string retLine = line.Substring(0, j).Trim();
+            if (label)
+            {
+                retLine = retLine.Replace(" ", string.Empty);
+            }
+
             if (retLine.StartsWith("if "))
             {
                 rdyLine.Type = LineType.Condition;

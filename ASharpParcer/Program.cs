@@ -39,10 +39,17 @@ namespace ASharpParcer
             {
                 Console.WriteLine($"{item.Line} : {item.Type}");
             }
+
+            ExecLine(0);
+            Console.WriteLine($"{JumpPlaces[0].PointName} : {JumpPlaces[0].LineId}");
         }
 
         public static void ExecLine(int i)
         {
+            switch (Lines[i].Type)
+            {
+                case LineType.Label: SpecTypesExec.ExecLabel(i); break;
+            }
         }
 
         public static void PreExecLine(string line)

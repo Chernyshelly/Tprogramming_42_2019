@@ -1,46 +1,71 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CourseApp
 {
     public class Program
     {
-        public static double MyFunction(double a, double b, double x)
+        public static double Equat(double a, double b, double x)
         {
-            var y = (a * Math.Pow(x, 2)) + (b * x);
-            return y;
+            return ((a * Math.Sqrt(x)) - (b * Math.Log(x, 5))) / Math.Log10(Math.Abs(x - 1));
         }
 
-        public static double[] TaskA(double a, double b, double xn, double xk, double dx)
+        public static List<double> TaskA(double a, double b, double xn, double xk, double dx)
         {
-            return new double[0];
-        }
-
-        public static double[] TaskB(double a, double b, double[] x)
-        {
-            var y = new double[x.Length];
-            for (var i = 0; i < x.Length; i++)
+            if (xk < xn)
             {
-                y[i] = MyFunction(a, b, x[i]);
+                return new List<double>();
+            }
+            else
+            {
+                List<double> rtrn = new List<double>();
+                for (double x = xn; x < (xk + 0.1); x += dx)
+                {
+                    rtrn.Add(Equat(a, b, x));
+                }
+
+                return rtrn;
+            }
+        }
+
+        public static List<double> TaskB(double a, double b, List<double> xm)
+        {
+            List<double> rtrn = new List<double>();
+            foreach (double item in xm)
+            {
+                rtrn.Add(Equat(a, b, item));
             }
 
-            return y;
+            return rtrn;
         }
 
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            const double a = 2.2;
-            const double b = 3.8;
-            var resSingle = MyFunction(a, b, 4);
-            Console.WriteLine(resSingle);
-            var x = new double[] { 1, 2, 3, 4, 5 };
-            var taskBRes = TaskB(a, b, x);
-            foreach (var item in taskBRes)
+            double a = 4.1;
+            double b = 2.7;
+            List<double> mass = TaskA(a, b, 1.2, 5.2, 0.8);
+            foreach (var item in mass)
             {
-                Console.WriteLine($"y = {item}");
+                Console.WriteLine(item);
             }
 
-            Console.ReadLine();
+            List<double> mass2 = new List<double>() { 1.9, 2.15, 2.34, 2.73, 3.16 };
+            mass2 = TaskB(a, b, mass2);
+            foreach (var item in mass2)
+            {
+                Console.WriteLine(item);
+            }
+
+            Person[] masss = new Person[2];
+            masss[0] = new Student(18, "Vasya", "Ivanov");
+            masss[1] = new Employee(35, "Vasiliy", "Petrov");
+            foreach (var item in masss)
+            {
+                Console.WriteLine(item.Relax());
+            }
+
+            Console.WriteLine(MyAgeClass.DateCompar(new DateTime(2001, 2, 5), new DateTime(2019, 12, 9)));
+            Console.ReadKey();
         }
     }
 }
